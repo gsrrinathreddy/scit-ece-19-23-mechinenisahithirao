@@ -1,6 +1,22 @@
 import { Typography } from '@mui/material';
+import {useState,useEffect} from 'react';
+import axios from 'axios';
 
 export default function ContactMe(){
+const [loader,setLoader] = useState(true);
+    const [contactMe,setContactMe] = useState(null);
+
+    const connectToServer = async  () => axios.get('http://localhost:8000/ContactMe')
+                                            .then(res=>{
+                                        
+                                                console.log(res.data);
+                                                setContactMe(res.data);
+                                                setLoader(false)
+                                            }).catch(err=>console.log(err))
+useEffect(()=>{
+   connectToServer();
+},[])
+
     return(
         <>
 <Typography>Name:M.Sahithi</Typography>

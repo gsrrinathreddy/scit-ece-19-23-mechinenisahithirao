@@ -4,7 +4,26 @@ import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
+
+import {useState,useEffect} from 'react';
+  import axios from 'axios';
+  import { Typography } from '@mui/material';
+
+
+  export default function Cerification(){
+const [loader,setLoader] = useState(true);
+    const [cerification,setCerification] = useState(null);
+
+    const connectToServer = async  () => axios.get('http://localhost:8000/Cerification')
+                                            .then(res=>{
+                                        
+                                                console.log(res.data);
+                                                setCerification(res.data);
+                                                setLoader(false)
+                                            }).catch(err=>console.log(err))
+useEffect(()=>{
+   connectToServer();
+},[])
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -42,14 +61,14 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-export default function Cerification() {
+
   const [expanded, setExpanded] = React.useState('panel1');
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  return (
+  return(
     <div>
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
@@ -86,5 +105,6 @@ export default function Cerification() {
       </Accordion>
       
     </div>
-  );
-}
+    );
+  }
+  
